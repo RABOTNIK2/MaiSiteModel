@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 
 const init = () => {
 	const sizes = {
@@ -18,6 +17,7 @@ const init = () => {
 	scene.add(cameraTop);
 	scene.add(camera);
 
+
 	const controls = new OrbitControls(camera, canvas);
 	const controls2 = new OrbitControls(cameraTop, canvas);
 	controls.enabled = true;
@@ -29,12 +29,7 @@ const init = () => {
 	renderer.setSize(sizes.width, sizes.height);
 	renderer.render(scene, camera);
 
-	const firstPerson = new FirstPersonControls(camera, canvas);
-	firstPerson.movementSpeed = 7;
-	firstPerson.lookSpeed = 0.1;
-	firstPerson.enabled = false;
-
-	return { sizes, scene, canvas, camera, renderer, controls, firstPerson, cameraTop, controls2 };
+	return { sizes, scene, canvas, camera, renderer, controls, cameraTop, controls2 };
 };
 
 export default init;
