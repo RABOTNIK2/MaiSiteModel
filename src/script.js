@@ -20,7 +20,7 @@ const direction = new THREE.Vector3();
 
 const firstperson = new PointerLockControls( camera, document.body );
 
-firstperson.pointerSpeed = 2.0;
+firstperson.pointerSpeed = 3.0;
 
 firstperson.addEventListener( 'lock', function () {
 	controls.enabled = false;
