@@ -23,59 +23,41 @@ const firstperson = new PointerLockControls( camera, document.body );
 firstperson.pointerSpeed = 2.0;
 
 firstperson.addEventListener( 'lock', function () {
-	console.log("penis");
 	controls.enabled = false;
 	camTop = true;
 });
 
-firstperson.addEventListener( 'unlock', function () {
-	console.log("jopa");
-	controls.enabled = true;
-	camTop = false;
-});
-
-
 const onKeyDown = function ( event ) {
-
 	switch ( event.code ) {
-
 		case 'ArrowUp':
 		case 'KeyW':
 			moveForward = true;
 			break;
-
 		case 'ArrowLeft':
 		case 'KeyA':
 			moveLeft = true;
 			break;
-
 		case 'ArrowDown':
 		case 'KeyS':
 			moveBackward = true;
 			break;
-
 		case 'ArrowRight':
 		case 'KeyD':
 			moveRight = true;
 			break;
 	}
-
-};
+}
 
 const onKeyUp = function ( event ) {
-
 	switch ( event.code ) {
-
 		case 'ArrowUp':
 		case 'KeyW':
 			moveForward = false;
 			break;
-
 		case 'ArrowLeft':
 		case 'KeyA':
 			moveLeft = false;
 			break;
-
 		case 'ArrowDown':
 		case 'KeyS':
 			moveBackward = false;
@@ -85,10 +67,8 @@ const onKeyUp = function ( event ) {
 		case 'KeyD':
 			moveRight = false;
 			break;
-
 	}
-
-};
+}
 
 document.addEventListener( 'keydown', onKeyDown );
 document.addEventListener( 'keyup', onKeyUp );
@@ -107,29 +87,6 @@ scene.background = texture;
 // ########## Опять камера
 
 camera.position.set(-152.31793535300056, 130.8636475957829, 187.9151554310531);
-
-// controls.target.set(-30, 0, 25);
-
-// controls.enablePan = false; // Отключение движения в пространстве
-// controls.enableRotate = false; // Отключение кручения модельки
-// controls.enableZoom = false; // Отключение зума(если приблежать то только всю страничку)
-
-// ######## Положение камеры
-
-// console.log(camera.position.x)
-// console.log(camera.position.y)
-// console.log(camera.position.z)
-
-// function coord() {
-//     requestAnimationFrame(animate);
-//     const currentCameraX = camera.position.x;
-//     const currentCameraY = camera.position.y;
-//     const currentCameraZ = camera.position.z;
-//     console.log(`Camera Position: X=${currentCameraX}, Y=${currentCameraY}, Z=${currentCameraZ}`);
-//     renderer.render(scene, camera);
-// }
-
-// coord();
 
 // ######## Пол
 
@@ -161,19 +118,18 @@ scene.add(dirLight);
 
 // ######## Загрузка модели
 
-let cube1BB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-
 const loader = new GLTFLoader();
 loader.load(
-	'/models/University/University_V3.gltf',
+	'/models/University/University_V7.gltf',
 	(gltf) => {
 		console.log("success");
 		console.log(gltf);
+		const samolet = gltf.scene.getObjectByName("Su-27_Flanker");
+		console.log(samolet);
 		gltf.scene.scale.set(1, 1, 1);
 		gltf.scene.position.set(-50, 0, 0);
-		const zdanie1 = gltf.scene.getObjectByName("ГАК");
-		cube1BB.setFromObject(zdanie1);
 		scene.add(gltf.scene);
+		
 	},
 	(progress) => {
 		console.log("progress");
@@ -185,6 +141,20 @@ loader.load(
 	}
 
 );
+
+function change_visibility(slon){
+	for(let i=1; i<=5; i++){
+		let sign = scene.getObjectByName("Sign_"+ `${i}`);
+		sign.visible = slon;
+	}
+}
+
+firstperson.addEventListener( 'unlock', function () {
+	change_visibility(true);
+	controls.enabled = true;
+	camTop = false;
+	camera.position.set(-152.31793535300056, 130.8636475957829, 187.9151554310531);
+});
 
 // ####### Действия при нажатия маячка
 
@@ -201,39 +171,29 @@ function onMouseDown(event){
 	raycaster.setFromCamera(coords, camera);
 
 	const intersection = raycaster.intersectObject(scene, true);
+
 	if (intersection.length > 0 ){
 		const selectedObject = intersection[0].object;
-		// function change_visibility(){
-		// 	for(let i=1; i<=5; i++){
- 		// 	let sign = scene.getObjectByName("Sign_"+ `${i}`);
-		// 		sign.visible = false;
-		// 	};
-		// }
-		console.log(selectedObject.name);
+
 		switch (selectedObject.name){
 			case "Sign_1":
-				camera.position.set(-30.982488353441106, 6.352188176200416, 25.338981436160186);
-				// controls.target.set(selectedObject.position.x, selectedObject.position.y, selectedObject.position.z);
+				camera.position.set(-30.982488353441106, 6, 25.338981436160186);
 				firstperson.lock();
 				break;
 			case "Sign_2":
-				camera.position.set(-96.46659575400322, 1.9114617191427072, -27.22375479119171);
-				// controls.target.set(selectedObject.position.x, selectedObject.position.y, selectedObject.position.z);
+				camera.position.set(-96.46659575400322, 6, -27.22375479119171);
 				firstperson.lock();
 				break;
 			case "Sign_3":
-				camera.position.set(-58.95827926384064, 5.367481575718433, 132.06051524714178);
-				// controls.target.set(selectedObject.position.x, selectedObject.position.y, selectedObject.position.z);
+				camera.position.set(-58.95827926384064, 6, 132.06051524714178);
 				firstperson.lock();
 				break;
 			case "Sign_4":
-				camera.position.set(-98.62646940385528, 4.099032463204855, 73.05998210764218);
-				// controls.target.set(selectedObject.position.x, selectedObject.position.y, selectedObject.position.z);
+				camera.position.set(-98.62646940385528, 6, 73.05998210764218);
 				firstperson.lock();
 				break;
 			case "Sign_5":
-				camera.position.set(137.6607975409309, 3.686819678386093, 50.258244005958446);
-				// controls.target.set(selectedObject.position.x, selectedObject.position.y, selectedObject.position.z);
+				camera.position.set(137.6607975409309, 6, 50.258244005958446);
 				firstperson.lock();
 				break;
 		}
@@ -242,24 +202,44 @@ function onMouseDown(event){
 
 // ######## Обновление кадров ну или тип анимация
 
-const cameraBox = new THREE.Box3();
-const boxsize = new THREE.Vector3(2, 2, 2);
-const center = new THREE.Vector3();
+const coords = new THREE.Vector2();
+const buildingsraycaster = new THREE.Raycaster();
+
+const collisionRaycaster = new THREE.Raycaster();
+const collisionDirections = [
+    new THREE.Vector3(1, 0, 0),    
+    new THREE.Vector3(-1, 0, 0),   
+    new THREE.Vector3(0, 0, 1),    
+    new THREE.Vector3(0, 0, -1)    
+];
+const playerRadius = 0.8;
+
+function isCollision(nextPos) {
+    for (const dir of collisionDirections) {
+        collisionRaycaster.set(nextPos, dir);
+
+        const hits = collisionRaycaster.intersectObjects(scene.children, true);
+        if (hits.length > 0 && hits[0].distance < playerRadius) {
+            return true;
+        }
+    }
+    return false;
+}
+
+document.addEventListener("mouseover", (event) => {
+	coords.x = (event.clientX / renderer.domElement.clientWidth)*2 -1;
+	coords.y = -((event.clientY / renderer.domElement.clientHeight)*2 -1);
+});
+
+
 
 function animate() {
 	requestAnimationFrame(animate);
+
 	const time = performance.now();
 
 	if ( firstperson.isLocked === true ) {
-
-		camera.getWorldPosition(center);
-
-		cameraBox.setFromCenterAndSize(center, boxsize);
-
-		if (cameraBox.intersectsBox(cube1BB)){
-			moveForward = false;
-		}
-
+		change_visibility(false);
 
 		const delta = ( time - prevTime ) / 1000;
 
@@ -272,28 +252,54 @@ function animate() {
 		direction.x = Number( moveRight ) - Number( moveLeft );
 		direction.normalize();
 
-		if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-		if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+		if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+		if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
 
-		firstperson.moveRight( - velocity.x * delta );
-		firstperson.moveForward( - velocity.z * delta );
+		const nextPosition = camera.position.clone();
+
+		const moveX = -velocity.x * delta;
+		const sideDir = new THREE.Vector3();
+		camera.getWorldDirection(sideDir);
+		sideDir.cross(camera.up).normalize();
+
+		nextPosition.x += sideDir.x * moveX;
+		nextPosition.z += sideDir.z * moveX;
+
+		if (!isCollision(nextPosition)) {
+			firstperson.moveRight(moveX);
+		}
+
+		const moveZ = -velocity.z * delta;
+		const forwardDir = new THREE.Vector3();
+		camera.getWorldDirection(forwardDir);
+		forwardDir.normalize();
+
+		nextPosition.copy(camera.position);
+		nextPosition.x += forwardDir.x * moveZ;
+		nextPosition.z += forwardDir.z * moveZ;
+
+		if (!isCollision(nextPosition)) {
+			firstperson.moveForward(moveZ);
+		}
+
 
 	}else{
 		controls.update();
 	}
 
 	prevTime = time;
-	renderer.render(scene, camera);
-	if (camTop){
-		renderer.clearDepth();
 
-		renderer.setViewport(0, 0, 200, 200);
-		renderer.setScissor(0, 0, 200, 200);
-		renderer.setScissorTest(true);
-		renderer.render(scene, cameraTop);
-		renderer.setScissorTest(false);
-		renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-	}
+	renderer.render(scene, camera);
+	// if (camTop){
+	// 	renderer.clearDepth();
+
+	// 	renderer.setViewport(0, 0, 200, 200);
+	// 	renderer.setScissor(0, 0, 200, 200);
+	// 	renderer.setScissorTest(true);
+	// 	renderer.render(scene, cameraTop);
+	// 	renderer.setScissorTest(false);
+	// 	renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+	// }
 }
 
 animate();
