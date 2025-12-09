@@ -1,0 +1,25 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: #000;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+}
+.center-container {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#start {
+    font-size: x-large;
+    margin-top: 20px;
+    width: 50%;
+}
